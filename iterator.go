@@ -126,7 +126,7 @@ func NewIter(ipStr string) (it *Iter, err error) {
 		}
 		// 2001::1112-3334
 		// to ipClasses
-		// 20,01,...,11-33,12,34    (16个)
+		// 20,01,...,11-33,12-34    (16个)
 		for _, v := range ipClassesV6 {
 			if len(v) == 4 {
 				ipClasses = append(ipClasses, v[:2])
