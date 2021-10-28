@@ -20,22 +20,22 @@ type RangeParseMate struct {
 	e int //end
 }
 
-// RangeClassMate IP Range of every segment
+// RangeClassMate IP Range of every byte
 type RangeClassMate []RangeParseMate
 
 // Iter Iterator
 type Iter struct {
-	mode       int              // 模式
-	isIpv6     bool             // 是否是ipv6
-	isIpv4     bool             // 是否是ipv4
-	ipStr      string           // 填充后的ip字符串
-	lastIp     net.IP           // ip迭代空间
-	classmate  []RangeParseMate // ip范围限制信息
-	ipNet      *net.IPNet       // cidr 模式下的网段信息
-	sip        net.IP           // NarrowMode 下的结束IP
-	eip        net.IP           // WideMode 下的结束IP
-	isNotFirst bool             // 用于返回起始值
-	done       bool             // 结束
+	mode       int            // 模式
+	isIpv6     bool           // 是否是ipv6
+	isIpv4     bool           // 是否是ipv4
+	ipStr      string         // 填充后的ip字符串
+	lastIp     net.IP         // ip迭代空间
+	classmate  RangeClassMate // ip范围限制信息
+	ipNet      *net.IPNet     // cidr 模式下的网段信息
+	sip        net.IP         // NarrowMode 下的结束IP
+	eip        net.IP         // WideMode 下的结束IP
+	isNotFirst bool           // 用于返回起始值
+	done       bool           // 结束
 }
 
 func NewIter(ipStr string) (it *Iter, err error) {
@@ -88,7 +88,7 @@ func NewIter(ipStr string) (it *Iter, err error) {
 		return nil, fmt.Errorf("not is ip")
 	}
 
-	// 判断CidrMode
+	// CidrMode
 	ip, ipNet, err := net.ParseCIDR(ipStr)
 	if err == nil {
 		it.lastIp = ip.Mask(ipNet.Mask)
@@ -251,7 +251,7 @@ func inc(ip net.IP) {
 	}
 }
 
-// IPv4 Segmented increment, 有范围的IP自增 1-4.1-4.1-4.1-4 = 1.1.1.1-4.4.4.4
+// IP Segmented(byte) increment, 有范围的IP自增 1-4.1-4.1-4.1-4 = 1.1.1.1-4.4.4.4
 func classInc(ip net.IP, classMate RangeClassMate) {
 	for j := len(ip) - 1; j >= 0; j-- {
 		// 当前分段最大限制
