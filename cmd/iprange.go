@@ -63,7 +63,7 @@ func main() {
 		}
 		it, err := iprange.NewIter(v)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "[error] %s is not ip!", v)
+			fmt.Fprintf(os.Stderr, "[error] %s is not ip!\n", v)
 			continue
 		}
 		for nit := it.Next(); it.HasNext(); nit = it.Next() {
