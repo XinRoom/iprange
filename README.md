@@ -103,7 +103,7 @@ Simple to use:
 ```go
 package main
 
-import "github.com/Xinroom/iprange"
+import "github.com/XinRoom/iprange"
 import "fmt"
 
 func main() {
@@ -121,7 +121,7 @@ Iterator (Save memory):
 ```go
 package main
 
-import "github.com/Xinroom/iprange"
+import "github.com/XinRoom/iprange"
 import "fmt"
 
 func main() {

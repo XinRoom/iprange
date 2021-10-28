@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Xinroom/iprange"
+	"github.com/XinRoom/iprange"
 	"io"
 	"os"
 	"strings"
