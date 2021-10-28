@@ -1,5 +1,7 @@
 # iprange
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/XinRoom/iprange.svg)](https://pkg.go.dev/github.com/XinRoom/iprange)
+
 这是一个通过给定IP范围字符串生成IP集合的工具.
 
 This is a tool for generating IP SETS from a given IP range string.
