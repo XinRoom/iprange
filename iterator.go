@@ -142,22 +142,22 @@ func NewIter(ipStr string) (it *Iter, err error) {
 	if len(ipClasses) == 4 || len(ipClasses) == 16 {
 		for _, v := range ipClasses {
 			l0 := strings.Split(v, "-") // range
-			var l0s int64
+			var l0s uint64
 			if it.isIpv4 {
-				l0s, err = strconv.ParseInt(l0[0], 10, 16)
+				l0s, err = strconv.ParseUint(l0[0], 10, 8)
 			} else {
 				// ipv6 is hex
-				l0s, err = strconv.ParseInt(l0[0], 16, 16)
+				l0s, err = strconv.ParseUint(l0[0], 16, 8)
 			}
 			l0e := l0s // The default start and end are the same
-			if len(l0) > 2 && err != nil {
+			if len(l0) > 2 || err != nil {
 				return nil, err
 			}
 			if len(l0) == 2 {
 				if it.isIpv4 {
-					l0e, err = strconv.ParseInt(l0[1], 10, 16)
+					l0e, err = strconv.ParseUint(l0[1], 10, 8)
 				} else {
-					l0e, err = strconv.ParseInt(l0[1], 16, 16)
+					l0e, err = strconv.ParseUint(l0[1], 16, 8)
 				}
 				if err != nil {
 					return nil, err
