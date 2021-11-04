@@ -61,12 +61,12 @@ func main() {
 		if v == "" {
 			continue
 		}
-		it, err := iprange.NewIter(v)
+		it, startIp, err := iprange.NewIter(v)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[error] %s is not ip!\n", v)
 			continue
 		}
-		for nit := it.Next(); it.HasNext(); nit = it.Next() {
+		for nit := startIp; it.HasNext(); nit = it.Next() {
 			fmt.Println(nit)
 		}
 	}
