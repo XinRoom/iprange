@@ -1,6 +1,7 @@
 package iprange
 
 import (
+	"net"
 	"testing"
 )
 
@@ -27,11 +28,16 @@ func TestName(t *testing.T) {
 		t.Logf("GetByIndex [%d]: %v", index, it.GetIpByIndex(index))
 		t.Logf("GetByIndex2 [%d]: %v", index2, it.GetIpByIndex(index2))
 
-		//迭代
+		// 迭代
 		it.GetIpByIndex(0) // rest index
 		for itn := startIp; it.HasNext(); itn = it.Next() {
 			t.Log(itn)
 		}
+
+		// 包含判断
+		t.Log("Contains 1.1.1.0?", it.Contains(net.ParseIP("1.1.1.0")))
+		t.Log("Contains 1.1.1.1?", it.Contains(net.ParseIP("1.1.1.1")))
+		t.Log("Contains 1.1.1.3?", it.Contains(net.ParseIP("1.1.1.3")))
 	}
 
 	// 简单的获取IP序列

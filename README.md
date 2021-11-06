@@ -68,6 +68,27 @@ func main() {
 }
 ```
 
+Contains 判断IP是包含于对应IP字符串:
+
+```go
+package main
+
+import (
+	"github.com/XinRoom/iprange"
+	"net"
+)
+import "fmt"
+
+func main() {
+	it, _, err := iprange.NewIter("1.1.1.1/30")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(it.Contains(net.ParseIP("1.1.1.1")))
+}
+```
+
 ## Cmd Build
 
 ```
