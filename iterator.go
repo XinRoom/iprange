@@ -187,6 +187,11 @@ func NewIter(ipStr string) (it *Iter, startIp net.IP, err error) {
 		return nil, nil, fmt.Errorf("unknow mode")
 	}
 
+	// Avoid long ipv4 bytes
+	if it.sip.To4() != nil {
+		it.sip = it.sip.To4()
+		it.eip = it.eip.To4()
+	}
 	// dup copy sip to lastIp
 	dup := make(net.IP, len(it.sip))
 	copy(dup, it.sip)
@@ -265,12 +270,37 @@ func (it *Iter) getTotalNum() uint64 {
 	return 0
 }
 
+// GetIpByIndex ...
 func (it *Iter) GetIpByIndex(index uint64) net.IP {
 	if index >= it.totalNum {
 		return nil
 	}
 	it.incByIndex(index)
 	return it.lastIp
+}
+
+// Contains Check whether the IP address is included
+func (it *Iter) Contains(ip net.IP) bool {
+	if ip.To4() != nil {
+		ip = ip.To4()
+	}
+	switch it.mode {
+	case CidrMode:
+		return it.ipNet.Contains(ip)
+	case WideMode:
+		return bytes.Compare(it.eip, ip) >= 0 && bytes.Compare(it.sip, ip) <= 0
+	case NarrowMode:
+		if len(it.classmate) != len(ip) {
+			return false
+		}
+		for i, rangeParseMate := range it.classmate {
+			if rangeParseMate.s > ip[i] || rangeParseMate.e < ip[i] {
+				return false
+			}
+		}
+		return true
+	}
+	return false
 }
 
 // IP increment by index
