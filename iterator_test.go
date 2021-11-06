@@ -38,6 +38,9 @@ func TestName(t *testing.T) {
 		t.Log("Contains 1.1.1.0?", it.Contains(net.ParseIP("1.1.1.0")))
 		t.Log("Contains 1.1.1.1?", it.Contains(net.ParseIP("1.1.1.1")))
 		t.Log("Contains 1.1.1.3?", it.Contains(net.ParseIP("1.1.1.3")))
+		t.Log("Contains 2001::59:63?", it.Contains(net.ParseIP("2001::59:63")))
+		t.Log("Contains 2001::59:f2?", it.Contains(net.ParseIP("2001::59:f2")))
+		t.Log("Contains 2001::59:f3?", it.Contains(net.ParseIP("2001::59:f3")))
 	}
 
 	// 简单的获取IP序列
