@@ -263,7 +263,7 @@ func (it *Iter) getTotalNum() uint64 {
 	case NarrowMode:
 		var ret = uint64(1)
 		for _, v := range it.classmate {
-			ret = ret*uint64(v.e-v.s) + 1
+			ret = ret * (uint64(v.e-v.s) + 1)
 		}
 		return ret
 	}
