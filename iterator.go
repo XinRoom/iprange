@@ -317,10 +317,10 @@ func (it *Iter) incByIndex(index uint64) {
 	} else {
 		length := len(it.classmate)
 		ip := make([]byte, length)
-		rangeSpace := make([]uint8, length)
+		rangeSpace := make([]uint, length)
 		// 每一位的空间容量
 		for i, rangeMate := range it.classmate {
-			rangeSpace[i] = rangeMate.e - rangeMate.s + 1
+			rangeSpace[i] = uint(rangeMate.e-rangeMate.s) + 1
 		}
 		// transform 进位除余
 		carryBit := uint64(0) // 进位
