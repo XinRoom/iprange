@@ -63,28 +63,38 @@ func NewIter(ipStr string) (it *Iter, startIp net.IP, err error) {
 	} else if strings.Contains(ipStr, ":") {
 		it.isIpv6 = true
 		// 填充缩写
-		if strings.Count(ipStr, "::") == 1 {
-			// :: 扩展
-			buf := ":0000"
-			for i := strings.Count(ipStr, ":"); i < 7; i++ {
-				buf += ":0000"
-			}
-			ipStr = strings.Replace(ipStr, "::", buf+":", 1)
 
-			// 补零
-			ipv6C := strings.Split(ipStr, ":")
-			for i, v := range ipv6C {
-				ipv6D := strings.Split(v, "-")
-				for i2, v2 := range ipv6D {
-					for len(v2) < 4 {
-						v2 = "0" + v2
-					}
-					ipv6D[i2] = v2
-				}
-				ipv6C[i] = strings.Join(ipv6D, "-")
+		// :: 扩展
+		var fill = func(ipStr string) string {
+			buf := strings.Builder{}
+			for i := strings.Count(ipStr, ":"); i < 8; i++ {
+				buf.WriteString(":0000")
 			}
-			ipStr = strings.Join(ipv6C, ":")
+			ipStr = strings.Replace(ipStr, "::", buf.String()+":", 1)
+			buf.Reset()
+			return ipStr
 		}
+		if strings.Count(ipStr, "::") == 1 {
+			ipStr = fill(ipStr)
+		} else if strings.Count(ipStr, "::") == 2 && strings.Count(ipStr, "-") == 1 {
+			iL := strings.Split(ipStr, "-")
+			iL[0] = fill(iL[0])
+			iL[1] = fill(iL[1])
+			ipStr = strings.Join(iL, "-")
+		}
+		// 补零
+		ipv6C := strings.Split(ipStr, ":")
+		for i, v := range ipv6C {
+			ipv6D := strings.Split(v, "-")
+			for i2, v2 := range ipv6D {
+				for len(v2) < 4 {
+					v2 = "0" + v2
+				}
+				ipv6D[i2] = v2
+			}
+			ipv6C[i] = strings.Join(ipv6D, "-")
+		}
+		ipStr = strings.Join(ipv6C, ":")
 	}
 	it.ipStr = ipStr
 	if !it.isIpv4 && !it.isIpv6 {
