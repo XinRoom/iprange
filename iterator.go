@@ -201,6 +201,13 @@ func NewIter(ipStr string) (it *Iter, startIp net.IP, err error) {
 	if it.sip.To4() != nil {
 		it.sip = it.sip.To4()
 		it.eip = it.eip.To4()
+
+		// fix Fake IPv6, eg:0:0:0:0:0:ffff:aa51:0101
+		if it.isIpv6 && len(it.classmate) == 16 {
+			it.classmate = it.classmate[12:]
+			it.isIpv6 = false
+			it.isIpv4 = true
+		}
 	}
 	// dup copy sip to lastIp
 	dup := make(net.IP, len(it.sip))

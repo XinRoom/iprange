@@ -21,6 +21,7 @@ func TestName(t *testing.T) {
 		{input: "2001::59:63-f2", want: "2001::59:f0"},
 		{input: "2001::59-60:63-f2", want: "2001::60:f0"},
 		{input: "2001::59:63-2001::59:f2", want: "2001::59:f0"},
+		{input: "0:0:0:0:0:ffff:aa51:0101", want: "170.81.1.1"},
 	}
 
 	for _, v := range testCases {
